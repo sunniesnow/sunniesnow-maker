@@ -1,2 +1,5 @@
-# sunniesnow-maker
-The chart maker for Sunniesnow
+# Sunniesnow Maker
+
+The chart maker for Sunniesnow.
+
+Under development.
