@@ -1,0 +1,522 @@
+[
+	{
+		"id": "file",
+		"name": "File",
+		"shortcut": "f",
+		"items": [
+			{
+				"id": "new",
+				"name": "New...",
+				"shortcut": "Ctrl+Shift+N",
+				"hint": "Create a new project"
+			},
+			{
+				"id": "new-chart",
+				"name": "New chart...",
+				"hint": "Create a new chart for this project"
+			},
+			"separator",
+			{
+				"id": "open",
+				"name": "Open...",
+				"shortcut": "Ctrl+O",
+				"hint": "Open a project from the browser local storage"
+			},
+			{
+				"id": "open-local",
+				"name": "Open from local...",
+				"shortcut": "Ctrl+Shift+O",
+				"hint": "Upload a project"
+			},
+			"separator",
+			{
+				"id": "save",
+				"name": "Save",
+				"shortcut": "Ctrl+S",
+				"hint": "Save the project to the browser local storage"
+			},
+			{
+				"id": "save-local",
+				"name": "Save to local...",
+				"shortcut": "Ctrl+Shift+S",
+				"hint": "Download the project"
+			},
+			"separator",
+			{
+				"id": "export",
+				"name": "Export...",
+				"hint": "Export the project as a Sunniesnow level file and download"
+			},
+			"separator",
+			{
+				"id": "chart-meta",
+				"name": "Edit chart metadata...",
+				"hint": "Edit the metadata of the current chart"
+			}
+		]
+	},
+	{
+		"id": "edit",
+		"name": "Edit",
+		"shortcut": "e",
+		"items": [
+			{
+				"id": "undo",
+				"name": "Undo",
+				"shortcut": "Ctrl+Z",
+				"hint": "Undo the last action"
+			},
+			{
+				"id": "redo",
+				"name": "Redo",
+				"shortcut": "Ctrl+Y",
+				"hint": "Redo the last undone action"
+			},
+			{
+				"id": "cut",
+				"name": "Cut",
+				"shortcut": "Ctrl+X",
+				"hint": "Cut the selected objects"
+			},
+			{
+				"id": "copy",
+				"name": "Copy",
+				"shortcut": "Ctrl+C",
+				"hint": "Copy the selected objects"
+			},
+			{
+				"id": "paste",
+				"name": "Paste",
+				"shortcut": "Ctrl+V",
+				"hint": "Paste the copied / cut objects"
+			},
+			"separator",
+			{
+				"id": "select-all",
+				"name": "Select all",
+				"shortcut": "Ctrl+A",
+				"hint": "Select all objects"
+			},
+			{
+				"id": "select-channel",
+				"name": "Select channel",
+				"shortcut": "Ctrl+Shift+A",
+				"hint": "Select all objects in the current channel"
+			},
+			{
+				"id": "select-none",
+				"name": "Select none",
+				"shortcut": "Ctrl+D",
+				"hint": "Deselect all objects"
+			},
+			{
+				"id": "select-filter",
+				"name": "Select by filter...",
+				"shortcut": "Ctrl+F",
+				"hint": "Select objects by filter"
+			},
+			"separator",
+			{
+				"id": "delete",
+				"name": "Delete",
+				"shortcut": "Delete",
+				"hint": "Delete the selected objects"
+			}
+		]
+	},
+	{
+		"id": "events",
+		"name": "Events",
+		"shortcut": "e",
+		"items": [
+			{
+				"id": "create-tap",
+				"name": "Tap",
+				"shortcut": "T",
+				"hint": "Create a tap note, or change selected notes to taps"
+			},
+			{
+				"id": "create-hold",
+				"name": "Hold",
+				"shortcut": "H",
+				"hint": "Create a hold note, or change selected notes to holds"
+			},
+			{
+				"id": "create-drag",
+				"name": "Drag",
+				"shortcut": "D",
+				"hint": "Create a drag note, or change selected notes to drags"
+			},
+			{
+				"id": "create-flick",
+				"name": "Flick",
+				"shortcut": "F",
+				"hint": "Create a flick note, or change selected notes to flicks"
+			},
+			"separator",
+			{
+				"id": "create-bg-note",
+				"name": "Bg note",
+				"shortcut": "B",
+				"hint": "Create a background note"
+			},
+			{
+				"id": "create-bg-pattern",
+				"name": "Bg pattern...",
+				"shortcut": "P",
+				"hint": "Create a background pattern"
+			},
+			"separator",
+			{
+				"id": "bpm-change",
+				"name": "BPM change...",
+				"hint": "Create a BPM change event"
+			},
+			"separator",
+			{
+				"id": "move-to-channel-above",
+				"name": "Move to channel above",
+				"shortcut": "Ctrl+Shift+ArrowUp",
+				"hint": "Move the selected objects to the channel above"
+			},
+			{
+				"id": "move-to-channel-below",
+				"name": "Move to channel below",
+				"shortcut": "Ctrl+Shift+ArrowDown",
+				"hint": "Move the selected objects to the channel below"
+			}
+		]
+	},
+	{
+		"id": "channel",
+		"name": "Channel",
+		"shortcut": "c",
+		"items": [
+			{
+				"id": "create-channel-above",
+				"name": "Create channel above",
+				"shortcut": "Insert",
+				"hint": "Create a channel above the current channel"
+			},
+			{
+				"id": "create-channel-below",
+				"name": "Create channel below",
+				"shortcut": "Shift+Insert",
+				"hint": "Create a channel below the current channel"
+			},
+			{
+				"id": "delete-channel",
+				"name": "Delete channel",
+				"hint": "Delete the current channel"
+			},
+			{
+				"id": "move-channel-up",
+				"name": "Move channel up",
+				"shortcut": "Ctrl+ArrowUp",
+				"hint": "Swap the current channel with the channel above"
+			},
+			{
+				"id": "move-channel-down",
+				"name": "Move channel down",
+				"shortcut": "Ctrl+ArrowDown",
+				"hint": "Swap the current channel with the channel below"
+			}
+		]
+	},
+	{
+		"id": "snappee",
+		"name": "Snappee",
+		"shortcut": "s",
+		"items": [
+			{
+				"id": "create-rectangular-mesh",
+				"name": "Create a rectangular mesh...",
+				"shortcut": "Ctrl+R",
+				"hint": "Create a rectangular mesh"
+			},
+			{
+				"id": "create-regular-polygon-mesh",
+				"name": "Create a regular polygon mesh...",
+				"hint": "Create a regular polygon mesh"
+			},
+			{
+				"id": "create-radial-mesh",
+				"name": "Create a radial mesh...",
+				"hint": "Create a radial mesh"
+			},
+			{
+				"id": "create-parametric-mesh",
+				"name": "Create a parametric mesh...",
+				"hint": "Create a mesh by providing a 2-d parametric equation"
+			},
+			"separator",
+			{
+				"id": "create-bezier-curve",
+				"name": "Create a B&eacute;zier curve",
+				"shortcut": "Ctrl+B",
+				"hint": "Create a B&eacute;zier curve"
+			},
+			{
+				"id": "create-circular-curve",
+				"name": "Create a circular arc curve",
+				"hint": "Create a circular arc curve"
+			},
+			{
+				"id": "pen",
+				"name": "Pen",
+				"hint": "Create a curve by drawing segments of 3rd-degree B&eacute;zier curves"
+			},
+			{
+				"id": "create-parametric-curve",
+				"name": "Create a parametric curve...",
+				"hint": "Create a curve by providing a parametric equation"
+			},
+			"separator",
+			{
+				"id": "activate-snappee",
+				"name": "Activate",
+				"shortcut": "A",
+				"hint": "Activate the snappee"
+			},
+			{
+				"id": "deactivate-snappee",
+				"name": "Deactivate",
+				"shortcut": "Shift+A",
+				"hint": "Deactivate the snappee"
+			},
+			"separator",
+			{
+				"id": "attach",
+				"name": "Attach",
+				"shortcut": "S",
+				"hint": "Attach the selected objects to nearest snappees"
+			},
+			{
+				"id": "detach",
+				"name": "Detach",
+				"shortcut": "Shift+S",
+				"hint": "Detach the selected objects from snappees"
+			},
+			"separator",
+			{
+				"id": "clear-snappee",
+				"name": "Clear snappee",
+				"hint": "Delete all objects attached to the selected snappees"
+			},
+			{
+				"id": "reverse-curve",
+				"name": "Reverse curve",
+				"hint": "Reverse the direction of the selected curves"
+			},
+			{
+				"id": "fill-curve",
+				"name": "Fill curve with equal-time subdivisions",
+				"hint": "Fill the curve by placing notes at equal-time subdivisions"
+			}
+		]
+	},
+	{
+		"id": "transform",
+		"name": "Transform",
+		"shortcut": "t",
+		"items": [
+			{
+				"id": "move-left",
+				"name": "Move left",
+				"shortcut": "ArrowLeft",
+				"hint": "Move the selected objects left by 1 unit"
+			},
+			{
+				"id": "move-down",
+				"name": "Move down",
+				"shortcut": "ArrowDown",
+				"hint": "Move the selected objects down by 1 unit"
+			},
+			{
+				"id": "move-up",
+				"name": "Move up",
+				"shortcut": "ArrowUp",
+				"hint": "Move the selected objects up by 1 unit"
+			},
+			{
+				"id": "move-right",
+				"name": "Move right",
+				"shortcut": "ArrowRight",
+				"hint": "Move the selected objects right by 1 unit"
+			},
+			{
+				"id": "move-left-12-5",
+				"name": "Move left by 12.5",
+				"shortcut": "Shift+ArrowLeft",
+				"hint": "Move the selected objects left by 12.5 units"
+			},
+			{
+				"id": "move-down-12-5",
+				"name": "Move down by 12.5",
+				"shortcut": "Shift+ArrowDown",
+				"hint": "Move the selected objects down by 12.5 units"
+			},
+			{
+				"id": "move-up-12-5",
+				"name": "Move up by 12.5",
+				"shortcut": "Shift+ArrowUp",
+				"hint": "Move the selected objects up by 12.5 units"
+			},
+			{
+				"id": "move-right-12-5",
+				"name": "Move right by 12.5",
+				"shortcut": "Shift+ArrowRight",
+				"hint": "Move the selected objects right by 12.5 units"
+			},
+			{
+				"id": "move-forward",
+				"name": "Move forward",
+				"shortcut": ">",
+				"hint": "Move the selected objects forward by 1 time lattice"
+			},
+			{
+				"id": "move-backward",
+				"name": "Move backward",
+				"shortcut": "<",
+				"hint": "Move the selected objects backward by 1 time lattice"
+			},
+			"separator",
+			{
+				"id": "flip-horizontally",
+				"name": "Flip horizontally",
+				"hint": "Flip the selected objects horizontally"
+			},
+			{
+				"id": "flip-vertically",
+				"name": "Flip vertically",
+				"hint": "Flip the selected objects vertically"
+			},
+			{
+				"id": "free-transform",
+				"name": "Free transform",
+				"shortcut": "Ctrl+T",
+				"hint": "Free transform the selected objects, including scaling, rotating, and homography"
+			},
+			{
+				"id": "transform-matrix",
+				"name": "Transform matrix...",
+				"hint": "Apply a homography to the selected objects by specifying the matrix of it"
+			}
+		]
+	},
+	{
+		"id": "music",
+		"name": "Music",
+		"shortcut": "m",
+		"items": [
+			{
+				"id": "play-pause",
+				"name": "Play / pause",
+				"shortcut": "Spacebar",
+				"hint": "Play or pause the music"
+			},
+			"separator",
+			{
+				"id": "seek-forward",
+				"name": "Seek forward",
+				"shortcut": ".",
+				"hint": "Seek forward in time by one time lattice"
+			},
+			{
+				"id": "seek-backward",
+				"name": "Seek backward",
+				"shortcut": ",",
+				"hint": "Seek backward in time by one time lattice"
+			},
+			{
+				"id": "seek-forward-10",
+				"name": "Seek forward by 10s",
+				"shortcut": "Ctrl+.",
+				"hint": "Seek forward in time by 10 seconds"
+			},
+			{
+				"id": "seek-backward-10",
+				"name": "Seek backward by 10s",
+				"shortcut": "Ctrl+,",
+				"hint": "Seek backward in time by 10 seconds"
+			},
+			"separator",
+			{
+				"id": "time-lattice-1",
+				"name": "Set time lattice to 1 beat",
+				"shortcut": "1",
+				"hint": "Set the time lattice to 1 beat"
+			},
+			{
+				"id": "time-lattice-2",
+				"name": "Set time lattice to 1/2 beats",
+				"shortcut": "2",
+				"hint": "Set the time lattice to 1/2 beats"
+			},
+			{
+				"id": "time-lattice-3",
+				"name": "Set time lattice to 1/3 beats",
+				"shortcut": "3",
+				"hint": "Set the time lattice to 1/3 beats"
+			},
+			{
+				"id": "time-lattice-4",
+				"name": "Set time lattice to 1/4 beats",
+				"shortcut": "4",
+				"hint": "Set the time lattice to 1/4 beats"
+			},
+			{
+				"id": "time-lattice-6",
+				"name": "Set time lattice to 1/6 beats",
+				"shortcut": "6",
+				"hint": "Set the time lattice to 1/6 beats"
+			},
+			{
+				"id": "time-lattice-8",
+				"name": "Set time lattice to 1/8 beats",
+				"shortcut": "8",
+				"hint": "Set the time lattice to 1/8 beats"
+			},
+			{
+				"id": "time-lattice",
+				"name": "Other time lattice values...",
+				"hint": "Set the time lattice to a custom number of beats"
+			},
+			"separator",
+			{
+				"id": "speed-minus-0-1",
+				"name": "Subtract speed by 0.1",
+				"shortcut": "[",
+				"hint": "Subtract the speed (playback rate) by 0.1"
+			},
+			{
+				"id": "speed-plus-0-1",
+				"name": "Add speed by 0.1",
+				"shortcut": "]",
+				"hint": "Add the speed (playback rate) by 0.1"
+			},
+			{
+				"id": "speed-0-25",
+				"name": "Set speed to 0.25",
+				"hint": "Set the speed (playback rate) to 0.25"
+			},
+			{
+				"id": "speed-0-5",
+				"name": "Set speed to 0.5",
+				"hint": "Set the speed (playback rate) to 0.5"
+			},
+			{
+				"id": "speed-1",
+				"name": "Set speed to 1",
+				"shortcut": "\\",
+				"hint": "Set the speed (playback rate) to 1"
+			},
+			"separator",
+			{
+				"id": "playback-settings",
+				"name": "Playback settings...",
+				"hint": "Change the playback settings"
+			}
+		]
+	}
+]

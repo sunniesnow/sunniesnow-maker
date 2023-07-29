@@ -1,0 +1,2 @@
+Sunniesnow.LinkedList = class LinkedList {
+};
