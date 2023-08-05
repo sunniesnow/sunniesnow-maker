@@ -1,17 +1,26 @@
 Sunniesnow.Event = class Event {
 	static from(data) {
+		let result;
 		switch (data.type) {
 			case 'tap':
-				return new Sunniesnow.Tap(data.beat, data.x, data.y, data.text);
+				result = new Sunniesnow.Tap(data.beatExp, data.text);
+				result.setPosition(data.xExp, data.yExp);
+				break;
 		}
+		result.evaluateAttributes();
+		return result;
 	}
 
-	constructor(beat) {
-		this.beat = beat;
+	constructor(beatExp) {
+		this.beatExp = beatExp;
 		this.hasPosition = false;
 	}
 
 	evaluateAttributes() {
-		console.log('Event.evaluateAttributes()')
+		this.beat = math.evaluate(this.beatExp);
+	}
+
+	async toObject() {
+		return {type: 'event', beatExp: this.beatExp};
 	}
 };

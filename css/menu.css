@@ -1,0 +1,63 @@
+#menu {
+	user-select: none;
+}
+
+.menu-item {
+	display: inline-block;
+}
+
+.menu-master {
+	font-size: 20px;
+	padding: 0 5px;
+}
+
+.menu-master:hover, .menu-master:focus {
+	background: black;
+	color: white;
+}
+
+.menu-submenu {
+	display: none;
+	position: absolute;
+	background: lightgray;
+	padding: 5px 5px;
+}
+
+.menu-submenu-item {
+	display: flex;
+}
+
+.menu-submenu-item:focus {
+	background: black;
+	color: white;
+}
+
+.menu-submenu-item-icon {
+	height: 20px;
+	width: 20px;
+	vertical-align: bottom;
+	padding-right: 5px;
+	display: inline;
+
+	>img {
+		max-height: 20px;
+		width: auto;
+		height: auto;
+	}
+}
+
+.menu-submenu-item-name {
+	margin-right: 5px;
+	font-size: 20px;
+	vertical-align: baseline;
+	display: inline;
+}
+
+.menu-submenu-item-shortcut {
+	display: inline;
+	flex-grow: 1;
+	text-align: right;
+	color: gray;
+	vertical-align: baseline;
+	width: auto;
+}

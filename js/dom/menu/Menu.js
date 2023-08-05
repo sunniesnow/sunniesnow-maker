@@ -4,6 +4,7 @@ Sunniesnow.Menu = {
 	SUBMENU_ITEMS_TAB_INDEX_START: 200,
 
 	current: null,
+	submenuItems: {},
 
 	async load() {
 		this.menuJson = await fetch('json/menu.json').then(response => response.json());
@@ -20,12 +21,9 @@ Sunniesnow.Menu = {
 	},
 
 	setOnTrigger(submenuItemId, onTrigger) {
-		for (const item of this.items) {
-			const submenuItem = item.submenuItems.find(submenuItem => submenuItem.id === submenuItemId);
-			if (submenuItem) {
-				submenuItem.onTrigger = onTrigger;
-				break;
-			}
+		const submenuItem = this.submenuItems[submenuItemId];
+		if (submenuItem) {
+			submenuItem.onTrigger = onTrigger;
 		}
 	}
 };

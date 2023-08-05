@@ -6,7 +6,9 @@ Sunniesnow.SubmenuItem = class SubmenuItem {
 		this.name = name;
 		this.shortcut = shortcut;
 		this.hint = hint;
+		Sunniesnow.Menu.submenuItems[id] = this;
 		this.createDom();
+		this.createIconDom();
 		this.createNameDom();
 		this.createShortcutDom();
 		this.addEventListeners();
@@ -21,8 +23,20 @@ Sunniesnow.SubmenuItem = class SubmenuItem {
 		this.menuItem.submenuDom.appendChild(this.dom);
 	}
 
+	createIconDom() {
+		this.iconDivDom = document.createElement('div');
+		this.iconDivDom.classList.add('menu-submenu-item-icon');
+		this.dom.appendChild(this.iconDivDom);
+		
+		this.iconDom = Sunniesnow.Icons.createDom(this.id);
+		if (!this.iconDom) {
+			return;
+		}
+		this.iconDivDom.appendChild(this.iconDom);
+	}
+
 	createNameDom() {
-		this.nameDom = document.createElement('span');
+		this.nameDom = document.createElement('div');
 		this.nameDom.classList.add('menu-submenu-item-name');
 		this.nameDom.innerHTML = this.name;
 		this.dom.appendChild(this.nameDom);
@@ -32,7 +46,7 @@ Sunniesnow.SubmenuItem = class SubmenuItem {
 		if (!this.shortcut) {
 			return;
 		}
-		this.shortcutDom = document.createElement('span');
+		this.shortcutDom = document.createElement('div');
 		this.shortcutDom.classList.add('menu-submenu-item-shortcut');
 		this.shortcutDom.innerHTML = this.shortcut.replace(/[^+]+/g, x => `<kbd>${x}</kbd>`);
 		this.dom.appendChild(this.shortcutDom);
@@ -127,7 +141,7 @@ Sunniesnow.SubmenuItem = class SubmenuItem {
 			this.shortcutKey = ' ';
 		}
 		document.addEventListener('keydown', event => {
-			if (Sunniesnow.Menu.current) {
+			if (Sunniesnow.Menu.current || Sunniesnow.Popup.active()) {
 				return;
 			}
 			if (event.key.toLowerCase() === this.shortcutKey) {

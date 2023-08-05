@@ -1,6 +1,8 @@
 Sunniesnow.Preprocess = {
 	async run() {
+		Sunniesnow.Editor.init();
 		await this.loadAll();
+		Sunniesnow.Editor.main();
 	},
 
 	async loadAll() {

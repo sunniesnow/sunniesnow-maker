@@ -1,0 +1,21 @@
+.form {
+}
+
+.field {
+	padding-bottom: 10px;
+}
+
+.field-validity-check {
+	color: red;
+}
+
+.field-input {
+}
+
+.field-input-invalid {
+	border: 1px solid red;
+}
+
+.field-list {
+	padding-left: 20px;
+}

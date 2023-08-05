@@ -45,6 +45,7 @@ Sunniesnow.MenuItem = class MenuItem {
 
 	blur() {
 		this.masterDom.blur();
+		Sunniesnow.Menu.current = null;
 		this.submenuDom.style.display = 'none';
 	}
 
@@ -58,9 +59,18 @@ Sunniesnow.MenuItem = class MenuItem {
 			}
 		});
 		this.masterDom.addEventListener('focusin', event => {
+			if (Sunniesnow.Popup.active()) {
+				Sunniesnow.Popup.flash();
+				return;
+			}
 			this.focused = true;
 			Sunniesnow.Menu.current = this;
 			this.submenuDom.style.display = 'block';
+		});
+		this.masterDom.addEventListener('mouseleave', event => {
+			if (Sunniesnow.Popup.active()) {
+				this.blur();
+			}
 		});
 		window.addEventListener('blur', event => event => {
 			this.focused = false;
@@ -101,7 +111,7 @@ Sunniesnow.MenuItem = class MenuItem {
 			}
 		});
 		document.addEventListener('keydown', event => {
-			if (Sunniesnow.Popup.stack.length > 0) {
+			if (Sunniesnow.Popup.active()) {
 				return;
 			}
 			if (event.key.toLowerCase() === this.shortcut && event.altKey) {

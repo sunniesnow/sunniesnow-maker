@@ -33,6 +33,86 @@ Sunniesnow.Utils = {
 
 	camelToSlug(string) {
 		return string.replace(/[A-Z\d]/g, c => '-' + c.toLowerCase());
+	},
+
+	escapeHtml(string) {
+		return string.replace('"', '&quot;').replace('&', '&amp;').replace("'", '&#39;').replace('<', '&lt;').replace('>', '&gt;');
+	},
+
+	setLoadListener(element, listener) {
+		const img = document.createElement('img');
+		img.src = '';
+		img.addEventListener('error', event => {
+			element.removeChild(img);
+			listener();
+		});
+		element.appendChild(img);
+	},
+
+	async blobToBase64(blob) {
+		const reader = new FileReader();
+		reader.readAsDataURL(blob);
+		return new Promise((resolve, reject) => reader.addEventListener(
+			'loadend',
+			e => resolve(reader.result)
+		));
+	},
+
+	async base64ToBlob(base64) {
+		return await (await fetch(base64)).blob();
+	},
+
+	async audioDecode(arrayBuffer, context) {
+		const audioBuffer = await audioDecode(arrayBuffer);
+		const result = context.createBuffer(audioBuffer.numberOfChannels, audioBuffer.length, audioBuffer.sampleRate);
+		for (let i = 0; i < audioBuffer.numberOfChannels; i++) {
+			result.copyToChannel(audioBuffer.getChannelData(i), i);
+		}
+		return result;
+	},
+
+	// If there no match, return the next index.
+	// Less than all: return 0. Greater than all: return array.length.
+	// Empty: return 0.
+	bisectLeft(array, compareFn, low = 0, high = array.length) {
+		if (typeof compareFn !== 'function') {
+			const value = compareFn;
+			compareFn = e => e < value ? -1 : e > value ? 1 : 0;
+		}
+		while (low < high) {
+			const mid = low + high >>> 1;
+			const compare = compareFn(array[mid]);
+			if (compare === 0) {
+				return mid;
+			} else if (compare < 0) {
+				low = mid + 1;
+			} else {
+				high = mid;
+			}
+		}
+		return low;
+	},
+
+	// If there no match, return the previous index.
+	// Less than all: return -1. Greater than all: return array.length - 1.
+	// Empty: return -1.
+	bisectRight(array, compareFn, low = 0, high = array.length) {
+		if (typeof compareFn !== 'function') {
+			const value = compareFn;
+			compareFn = e => e < value ? -1 : e > value ? 1 : 0;
+		}
+		while (low < high) {
+			const mid = low + high >>> 1;
+			const compare = compareFn(array[mid]);
+			if (compare === 0) {
+				return mid;
+			} else if (compare < 0) {
+				low = mid + 1;
+			} else {
+				high = mid;
+			}
+		}
+		return high - 1;
 	}
 
 };

@@ -4,6 +4,20 @@ Sunniesnow.Popup = class Popup {
 
 	static stack = [];
 
+	static active() {
+		return this.stack.length > 0;
+	}
+
+	static flash() {
+		if (!this.active()) {
+			return;
+		}
+		const dom = this.stack[this.stack.length - 1].dom;
+		dom.classList.add('popup-flash');
+		setTimeout(() => dom.classList.remove('popup-flash'), 500);
+	}
+
+	// buttonsData: {buttonName: buttonOnClick}
 	constructor(title, contentsHtml, buttonsData) {
 		this.title = title;
 		this.contentsHtml = contentsHtml;
@@ -32,7 +46,11 @@ Sunniesnow.Popup = class Popup {
 	createContentsDom() {
 		this.contentsDom = document.createElement('div');
 		this.contentsDom.classList.add('popup-contents');
-		this.contentsDom.innerHTML = this.contentsHtml;
+		if (this.contentsHtml instanceof HTMLElement) {
+			this.contentsDom.appendChild(this.contentsHtml);
+		} else {
+			this.contentsDom.innerHTML = this.contentsHtml;
+		}
 		this.dom.appendChild(this.contentsDom);
 	}
 

@@ -3,7 +3,6 @@ Sunniesnow.TipPointable = class TipPointable {
 		this.hasPosition = true;
 		this.xExp = xExp;
 		this.yExp = yExp;
-		this.evaluateXAndY();
 	}
 
 	setTipPoint(data) {
@@ -16,7 +15,6 @@ Sunniesnow.TipPointable = class TipPointable {
 	}
 
 	evaluateAttributes() {
-		console.log(this);
 		Sunniesnow.Utils.super(this, Sunniesnow.TipPointable, 'evaluateAttributes')();
 		this.evaluateXAndY();
 	}

@@ -1,4 +1,18 @@
 [
 	"Dom",
-	"Menu"
+	"Icons",
+	"Menu",
+	"Toolbar",
+	
+	"Audio",
+	"Music",
+
+	"Project",
+
+	"PointerManager",
+
+	"Background",
+	"BasicGrid",
+	"Beats",
+	"Slider"
 ]

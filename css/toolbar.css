@@ -1,0 +1,32 @@
+#toolbar {
+	user-select: none;
+}
+
+.toolbar-separator {
+	font-size: 32px;
+	display: inline;
+	color: lightgray;
+	padding: 0px 5px;
+	vertical-align: middle;
+}
+
+.toolbar-button {
+	display: inline-block;
+	vertical-align: middle;
+	width: 32px;
+	height: 32px;
+
+	>img {
+		max-height: 32px;
+		width: auto;
+		height: auto;
+	}
+}
+
+.toolbar-button:hover {
+	background: lightgray;
+}
+
+.toolbar-button:active {
+	background: gray;
+}

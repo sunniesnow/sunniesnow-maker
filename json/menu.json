@@ -417,6 +417,12 @@
 			},
 			"separator",
 			{
+				"id": "seek-to-start",
+				"name": "Seek to start",
+				"shortcut": "Home",
+				"hint": "Seek to the start of the music"
+			},
+			{
 				"id": "seek-forward",
 				"name": "Seek forward",
 				"shortcut": ".",
@@ -510,6 +516,19 @@
 				"name": "Set speed to 1",
 				"shortcut": "\\",
 				"hint": "Set the speed (playback rate) to 1"
+			},
+			"separator",
+			{
+				"id": "zoom-in",
+				"name": "Zoom in",
+				"shortcut": "Ctrl+=",
+				"hint": "Zoom in the timeline"
+			},
+			{
+				"id": "zoom-out",
+				"name": "Zoom out",
+				"shortcut": "Ctrl+-",
+				"hint": "Zoom out the timeline"
 			},
 			"separator",
 			{

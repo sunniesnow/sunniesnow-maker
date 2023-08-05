@@ -1,26 +1,58 @@
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/general.css">
+<link rel="stylesheet" href="css/toolbar.css">
+<link rel="stylesheet" href="css/menu.css">
+<link rel="stylesheet" href="css/popup.css">
+<link rel="stylesheet" href="css/chart-select.css">
+<link rel="stylesheet" href="css/toast.css">
+<link rel="stylesheet" href="css/form.css">
 
 <script src="https://fastly.jsdelivr.net/npm/mathjs@11.8.2/lib/browser/math.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/pixi.js@7.2.4/dist/pixi.min.js"></script>
+<script src="https://fastly.jsdelivr.net/npm/@pixi/math-extras@7.x/dist/math-extras.min.js"></script>
+<script type="module">import audioDecode from 'https://fastly.jsdelivr.net/npm/audio-decode@2.1.4/+esm'; window.audioDecode = audioDecode;</script>
 
 <script>window.Sunniesnow = {};</script>
 
 <script src="js/utils/Utils.js"></script>
 <script src="js/utils/LinkedList.js"></script>
 
-<script src="js/dom/Dom.js"></script>
+<script src="js/Config.js"></script>
 
+<script src="js/audio/Audio.js"></script>
+<script src="js/audio/Music.js"></script>
+
+<script src="js/dom/Dom.js"></script>
+<script src="js/dom/Icons.js"></script>
 <script src="js/dom/Toast.js"></script>
 
 <script src="js/dom/menu/Menu.js"></script>
 <script src="js/dom/menu/MenuItem.js"></script>
 <script src="js/dom/menu/SubmenuItem.js"></script>
 
+<script src="js/dom/Toolbar.js"></script>
+
 <script src="js/dom/popup/Popup.js"></script>
 <script src="js/dom/popup/PopupButton.js"></script>
+<script src="js/dom/popup/PopupForm.js"></script>
+
+<script src="js/dom/form/Form.js"></script>
+<script src="js/dom/form/forms/FormNew.js"></script>
+
+<script src="js/dom/form/Field.js"></script>
+<script src="js/dom/form/fields/FieldText.js"></script>
+<script src="js/dom/form/fields/FieldNumber.js"></script>
+<script src="js/dom/form/fields/FieldSelect.js"></script>
+<script src="js/dom/form/fields/FieldCheckbox.js"></script>
+<script src="js/dom/form/fields/FieldColor.js"></script>
+<script src="js/dom/form/fields/FieldFile.js"></script>
+<script src="js/dom/form/fields/FieldRadio.js"></script>
+<script src="js/dom/form/fields/FieldList.js"></script>
+<script src="js/dom/form/fields/FieldListItem.js"></script>
 
 <script src="js/file/Project.js"></script>
 <script src="js/file/Chart.js"></script>
 <script src="js/file/Channel.js"></script>
+<script src="js/file/Workspace.js"></script>
 
 <script src="js/chart-nonevent/TipPoint.js"></script>
 
@@ -31,5 +63,19 @@
 <script src="js/chart-event/Tap.js"></script>
 
 <script src="js/chart-event/bg-pattern/BgPattern.js"></script>
+
+<script src="js/ui/UiPool.js"></script>
+
+<script src="js/ui/main-ui/Background.js"></script>
+<script src="js/ui/main-ui/BasicGrid.js"></script>
+
+<script src="js/ui/timeline-ui/Waveform.js"></script>
+<script src="js/ui/timeline-ui/Beats.js"></script>
+<script src="js/ui/timeline-ui/Slider.js"></script>
+
+<script src="js/editor/Editor.js"></script>
+<script src="js/editor/MainApp.js"></script>
+<script src="js/editor/TimelineApp.js"></script>
+<script src="js/editor/PointerManager.js"></script>
 
 <script src="js/Preprocess.js"></script>
