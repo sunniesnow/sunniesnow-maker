@@ -1,5 +1,7 @@
 Sunniesnow.BasicGrid = class BasicGrid extends PIXI.Container {
 
+	static COLOR = 0x7f7f7f;
+
 	static async load() {
 		this.gridGeometry = this.createGridGeometry();
 	}
@@ -11,7 +13,7 @@ Sunniesnow.BasicGrid = class BasicGrid extends PIXI.Container {
 		const hn = 4; // 50 / 12.5
 		const scale = Sunniesnow.Config.scale * 12.5;
 		const graphics = new PIXI.Graphics();
-		graphics.lineStyle(2, 0x000000);
+		graphics.lineStyle(2, this.COLOR);
 		graphics.moveTo(0, h2);
 		graphics.lineTo(0, -h2);
 		graphics.moveTo(-w2, 0);

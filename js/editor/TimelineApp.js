@@ -21,6 +21,7 @@ Sunniesnow.TimelineApp = {
 	reloadProject() {
 		this.createWaveform();
 		this.createBeats();
+		this.createBpmChanges();
 		this.createSlider();
 	},
 
@@ -36,6 +37,13 @@ Sunniesnow.TimelineApp = {
 		if (!this.beats) {
 			this.beats = new Sunniesnow.Beats();
 			this.app.stage.addChild(this.beats);
+		}
+	},
+
+	createBpmChanges() {
+		if (!this.bpmChanges) {
+			this.bpmChanges = new Sunniesnow.BpmChanges();
+			this.app.stage.addChild(this.bpmChanges);
 		}
 	},
 

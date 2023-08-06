@@ -50,18 +50,7 @@ Sunniesnow.Toolbar = {
 			}
 			Sunniesnow.Menu.submenuItems[id].trigger();
 		});
-		this.buttons[id].addEventListener('mouseenter', event => {
-			Sunniesnow.Dom.hint.innerHTML = Sunniesnow.Menu.submenuItems[id].hint;
-		});
-		this.buttons[id].addEventListener('mouseleave', event => {
-			Sunniesnow.Dom.hint.innerHTML = '';
-		});
-		this.buttons[id].addEventListener('focus', event => {
-			Sunniesnow.Dom.hint.innerHTML = Sunniesnow.Menu.submenuItems[id].hint;
-		});
-		this.buttons[id].addEventListener('blur', event => {
-			Sunniesnow.Dom.hint.innerHTML = '';
-		});
+		Sunniesnow.Hint.register(this.buttons[id], Sunniesnow.Menu.submenuItems[id].hint);
 		document.addEventListener('keydown', event => {
 			if (document.activeElement !== this.buttons[id]) {
 				return;

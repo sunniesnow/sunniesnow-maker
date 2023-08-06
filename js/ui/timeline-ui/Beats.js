@@ -1,12 +1,13 @@
-Sunniesnow.Beats = class Beats extends PIXI.Container {
+Sunniesnow.Beats = class Beats extends Sunniesnow.TimelineUi {
 
-	static HEIGHT = 100;
-	static CURSOR_WIDTH = 4;
-	static BEAT_WIDTH = 2;
-	static SUBDIVISION_WIDTH = 2;
-	static CURSOR_COLOR = 0xffff00;
-	static BEAT_COLOR = 0xff0000;
-	static SUBDIVISION_COLOR = 0x0000ff;
+	static HEIGHT = 100
+	static CURSOR_WIDTH = 4
+	static BEAT_WIDTH = 2
+	static BEAT_FONT_SIZE = 20
+	static SUBDIVISION_WIDTH = 2
+	static CURSOR_COLOR = 0xffff00
+	static BEAT_COLOR = 0xff0000
+	static SUBDIVISION_COLOR = 0x0000ff
 
 	static async load() {
 		this.cursorGeometry = this.createCursorGeometry();
@@ -43,7 +44,7 @@ Sunniesnow.Beats = class Beats extends PIXI.Container {
 
 	constructor() {
 		super();
-		this.createBeatsContainer();
+		this.createContainers();
 		this.createCursor();
 		this.beats = {};
 		this.subdivisions = {};
@@ -56,9 +57,11 @@ Sunniesnow.Beats = class Beats extends PIXI.Container {
 		this.addChild(this.cursor);
 	}
 
-	createBeatsContainer() {
+	createContainers() {
 		this.beatsContainer = new PIXI.Container();
 		this.addChild(this.beatsContainer);
+		this.textsContainer = new PIXI.Container();
+		this.addChild(this.textsContainer);
 	}
 
 	update(delta) {
@@ -67,16 +70,10 @@ Sunniesnow.Beats = class Beats extends PIXI.Container {
 		this.updateBeats();
 	}
 
-	updatePosition() {
-		if (!Sunniesnow.Editor.music) {
-			return;
-		}
-		const anchorX = Sunniesnow.workspace.offset / Sunniesnow.Config.secondsPerRow * Sunniesnow.workspace.zoom * Sunniesnow.TimelineApp.width;
-		this.x = Sunniesnow.TimelineApp.width * Sunniesnow.workspace.cursorPosition - anchorX;
-	}
-
 	onResize() {
-		this.scale.y = (Sunniesnow.TimelineApp.height - Sunniesnow.Config.sliderHeight) / this.constructor.HEIGHT;
+		const scale = (Sunniesnow.TimelineApp.height - Sunniesnow.Config.sliderHeight) / this.constructor.HEIGHT;
+		this.beatsContainer.scale.y = scale;
+		this.cursor.scale.y = scale;
 	}
 
 	updateCursor() {
@@ -84,7 +81,7 @@ Sunniesnow.Beats = class Beats extends PIXI.Container {
 	}
 
 	updateBeats() {
-		this.bleedBeats();
+		this.bleed();
 		const [min, max] = Sunniesnow.workspace.timeWindow();
 		const offset = Sunniesnow.Editor.project.offset;
 		const baseBps = Sunniesnow.Editor.project.baseBps;
@@ -139,48 +136,61 @@ Sunniesnow.Beats = class Beats extends PIXI.Container {
 	}
 
 	setBeat(beat, time) {
-		let beatUi = this.beats[beat];
-		if (!beatUi) {
-			this.beats[beat] = beatUi = new PIXI.Graphics(this.constructor.beatGeometry);
-			this.beatsContainer.addChild(beatUi);
+		let sprite, text;
+		if (!this.beats[beat]) {
+			sprite = new PIXI.Graphics(this.constructor.beatGeometry);
+			text = new PIXI.Text(beat, { fontSize: this.constructor.BEAT_FONT_SIZE, fill: this.constructor.BEAT_COLOR });
+			this.beats[beat] = {sprite, text};
+			this.beatsContainer.addChild(sprite);
+			this.textsContainer.addChild(text);
+		} else {
+			({sprite, text} = this.beats[beat]);
 		}
-		beatUi.visible = true;
-		beatUi.x = time / Sunniesnow.Config.secondsPerRow * Sunniesnow.workspace.zoom * Sunniesnow.TimelineApp.width;
-		beatUi.life = Sunniesnow.Config.bufferLife;
+		sprite.visible = text.visible = true;
+		sprite.x = text.x = this.XAt(time);
+		this.beats[beat].life = Sunniesnow.Config.bufferLife;
 	}
 
 	setSubdivision(beat, subdivision, time) {
 		this.subdivisions[beat] ??= {};
-		let subdivisionUi = this.subdivisions[beat][subdivision];
-		if (!subdivisionUi) {
-			this.subdivisions[beat][subdivision] = subdivisionUi = new PIXI.Graphics(this.constructor.subdivisionGeometry);
-			this.beatsContainer.addChild(subdivisionUi);
+		let sprite;
+		if (!this.subdivisions[beat][subdivision]) {
+			sprite = new PIXI.Graphics(this.constructor.subdivisionGeometry);
+			this.subdivisions[beat][subdivision] = {sprite};
+			this.beatsContainer.addChild(sprite);
+		} else {
+			({sprite} = this.subdivisions[beat][subdivision]);
 		}
-		subdivisionUi.visible = true;
-		subdivisionUi.x = time / Sunniesnow.Config.secondsPerRow * Sunniesnow.workspace.zoom * Sunniesnow.TimelineApp.width;
-		subdivisionUi.life = Sunniesnow.Config.bufferLife;
+		sprite.visible = true;
+		sprite.x = this.XAt(time);
+		this.subdivisions[beat][subdivision].life = Sunniesnow.Config.bufferLife;
 	}
 
-	bleedBeats() {
+	bleed() {
 		for (const beat in this.beats) {
-			const beatUi = this.beats[beat];
-			beatUi.visible = false;
-			beatUi.life--;
-			if (beatUi.life <= 0) {
-				beatUi.destroy({children: true});
-				this.beatsContainer.removeChild(beatUi);
+			const {sprite, text, life} = this.beats[beat];
+			sprite.visible = false;
+			text.visible = false;
+			if (life <= 0) {
+				sprite.destroy({children: true});
+				this.beatsContainer.removeChild(sprite);
+				text.destroy({children: true});
+				this.textsContainer.removeChild(text);
 				delete this.beats[beat];
+			} else {
+				this.beats[beat].life--;
 			}
 		}
 		for (const beat in this.subdivisions) {
 			for (const subdivision in this.subdivisions[beat]) {
-				const subdivisionUi = this.subdivisions[beat][subdivision];
-				subdivisionUi.visible = false;
-				subdivisionUi.life--;
-				if (subdivisionUi.life <= 0) {
-					subdivisionUi.destroy({children: true});
-					this.beatsContainer.removeChild(subdivisionUi);
+				const {sprite, life} = this.subdivisions[beat][subdivision];
+				sprite.visible = false;
+				if (life <= 0) {
+					sprite.destroy({children: true});
+					this.beatsContainer.removeChild(sprite);
 					delete this.subdivisions[beat][subdivision];
+				} else {
+					this.subdivisions[beat][subdivision].life--;
 				}
 			}
 		}

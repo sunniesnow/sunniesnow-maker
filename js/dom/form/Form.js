@@ -29,6 +29,7 @@ Sunniesnow.Form = class Form {
 		this.fieldsData = fieldsData;
 		this.fields = [];
 		this.inputListeners = [];
+		this.disabled = false;
 		this.populate();
 	}
 
@@ -59,6 +60,9 @@ Sunniesnow.Form = class Form {
 	}
 
 	allValid() {
+		if (this.disabled) {
+			return true;
+		}
 		for (const field of this.fields) {
 			if (field.invalid) {
 				return false;
@@ -66,7 +70,7 @@ Sunniesnow.Form = class Form {
 			if (!field.subforms) {
 				continue;
 			}
-			for (const subform of field.subforms) {
+			for (const subform of Object.values(field.subforms)) {
 				if (!subform.allValid()) {
 					return false;
 				}
@@ -76,16 +80,32 @@ Sunniesnow.Form = class Form {
 	}
 
 	values() {
+		if (this.disabled) {
+			return {};
+		}
 		const result = {};
 		for (const field of this.fields) {
 			result[field.id] = field.value();
-			if (!field.subforms) {
-				continue;
-			}
-			for (const subform of field.subforms) {
-				Object.assign(result, subform.values());
+			if (field.hasExtraValues) {
+				Object.assign(result, field.extraValues());
 			}
 		}
 		return result;
+	}
+
+	setDisabled(disabled) {
+		if (this.disabled === disabled) {
+			return;
+		}
+		this.disabled = disabled;
+		for (const field of this.fields) {
+			field.setDisabled(disabled);
+		}
+	}
+
+	purge() {
+		for (const field of this.fields) {
+			field.purge();
+		}
 	}
 };

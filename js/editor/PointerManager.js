@@ -4,14 +4,7 @@ Sunniesnow.PointerManager = {
 
 	priorities: {main: [], timeline: []},
 	interactiveTargets: {main: {}, timeline: {}},
-	operating: {
-		target: null,
-		scope: null,
-		initialPosition: null,
-		localPosition: null,
-		initialTargetPosition: new PIXI.Point(),
-		dragging: false
-	},
+	operating: {},
 
 	async load() {
 		this.apps = {main: Sunniesnow.MainApp.app, timeline: Sunniesnow.TimelineApp.app};
@@ -58,51 +51,52 @@ Sunniesnow.PointerManager = {
 			}
 		}
 		if (finalTarget) {
-			this.operating.scope = scope;
-			this.operating.target = finalTarget;
+			event.preventDefault();
+			const operating = this.operating[event.pointerId] = {initialTargetPosition: new PIXI.Point()};
+			operating.scope = scope;
+			operating.target = finalTarget;
 			finalTarget.emit('pointerdown', {
 				position,
-				localPosition: finalTarget.worldTransform.applyInverse(position, tempPoint)
+				localPosition: finalTarget.toLocal(position, null, tempPoint)
 			});
-			this.operating.initialPosition = position;
-			this.operating.localPosition = tempPoint;
-			this.operating.initialTargetPosition.copyFrom(finalTarget.position);
+			operating.initialPosition = position;
+			operating.localPosition = tempPoint;
+			finalTarget.getGlobalPosition(operating.initialTargetPosition);
 		}
 	},
 
 	onPointerMove(event) {
-		if (!this.operating.target) {
+		const operating = this.operating[event.pointerId];
+		if (!operating) {
 			return;
 		}
+		event.preventDefault();
 		const position = new PIXI.Point();
-		this.apps[this.operating.scope].renderer.events.mapPositionToPoint(position, event.clientX, event.clientY);
-		const totalDelta = position.subtract(this.operating.initialPosition);
+		this.apps[operating.scope].renderer.events.mapPositionToPoint(position, event.clientX, event.clientY);
+		const totalDelta = position.subtract(operating.initialPosition);
+		const target = operating.target;
+		const draggedTo = target.parent?.toLocal(operating.initialTargetPosition.add(totalDelta));
+		const data = {position, totalDelta, draggedTo, localPosition: target.toLocal(position)};
+		target.emit('pointermove', data);
 		if (totalDelta.magnitudeSquared() < this.DRAG_THRESHOLD_SQUARED) {
 			return;
 		}
-		this.operating.dragging = true;
-		const target = this.operating.target;
-		target.emit('pointerdrag', {
-			position,
-			totalDelta,
-			draggedTo: this.operating.initialTargetPosition.add(totalDelta),
-		});
+		operating.dragging = true;
+		target.emit('pointerdrag', data);
 	},
 
 	onPointerUp(event) {
-		if (!this.operating.target) {
+		const operating = this.operating[event.pointerId];
+		if (!operating) {
 			return;
 		}
-		const target = this.operating.target;
+		event.preventDefault();
+		const target = operating.target;
 		target.emit('pointerup');
-		if (!this.operating.dragging) {
-			this.operating.target.emit('pointerclick');
+		if (!operating.dragging) {
+			target.emit('pointerclick');
 		}
-		this.operating.target = null;
-		this.operating.dragging = false;
-		this.operating.initialPosition = null;
-		this.operating.localPosition = null;
-		this.operating.scope = null;
+		delete this.operating[event.pointerId];
 	},
 
 	addDomEventListeners() {
@@ -114,36 +108,60 @@ Sunniesnow.PointerManager = {
 		Sunniesnow.MainApp.canvas.addEventListener('touchstart', event => this.onTouchStart(event, 'main'));
 		document.addEventListener('touchmove', event => this.onTouchMove(event));
 		document.addEventListener('touchend', event => this.onTouchEnd(event));
+		window.addEventListener('blur', event => this.onBlur());
 	},
 
 	onMouseDown(event, scope) {
+		this.mouseId(event);
 		this.onPointerDown(event, scope);
 	},
 
 	onMouseMove(event) {
+		this.mouseId(event);
 		this.onPointerMove(event);
 	},
 
 	onMouseUp(event) {
+		this.mouseId(event);
 		this.onPointerUp(event);
 	},
 
 	onTouchStart(event, scope) {
 		for (const touch of event.changedTouches) {
+			this.touchId(touch);
 			this.onPointerDown(touch, scope);
 		}
 	},
 
 	onTouchMove(event) {
 		for (const touch of event.changedTouches) {
+			this.touchId(touch);
 			this.onPointerMove(touch);
 		}
 	},
 
 	onTouchEnd(event) {
 		for (const touch of event.changedTouches) {
+			this.touchId(touch);
 			this.onPointerUp(touch);
 		}
+	},
+
+	onBlur() {
+		for (const pointerId in this.operating) {
+			const operating = this.operating[pointerId];
+			const target = operating.target;
+			target.emit('pointerup');
+			delete this.operating[pointerId];
+		}
+	},
+
+	mouseId(event) {
+		event.pointerId = `mouse${event.button}`;
+	},
+	
+	touchId(touch) {
+		touch.pointerId = `touch${touch.identifier}`;
 	}
 
 };

@@ -1,7 +1,15 @@
 Sunniesnow.BpmChange = class BpmChange extends Sunniesnow.Event {
 
+	static async load() {
+		Sunniesnow.Menu.setOnTrigger('bpm-change', () => this.userNewPopup());
+	}
+
+	static userNewPopup() {
+		// TODO
+	}
+
 	static async fromObject(object) {
-		const result = new this(object.beatExp, object.bpmExp);
+		const result = new this(object.beatExp ?? '0', object.bpmExp ?? '120');
 		result.evaluateAttributes();
 		return result;
 	}

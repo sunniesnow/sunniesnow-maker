@@ -11,7 +11,6 @@ Sunniesnow.Audio = class Audio {
 	}
 
 	constructor(audioBuffer) {
-		this.finishListeners = [];
 		this.playbackRate = 1;
 		this.volume = 1;
 		this.buffer = audioBuffer;
@@ -19,6 +18,8 @@ Sunniesnow.Audio = class Audio {
 		this.playing = false;
 		this.lastOffset = 0;
 		this.lastTime = 0;
+		this.playListeners = [];
+		this.pauseListeners = [];
 		this.createGainNode();
 	}
 
@@ -66,12 +67,15 @@ Sunniesnow.Audio = class Audio {
 	}
 
 	play() {
+		if (this.playing || this.onPlay()) {
+			return;
+		}
 		this.createSourceNode();
 		this.lastTime = this.constructor.context.currentTime;
 		if (this.lastOffset >= 0) {
 			this.sourceNode.start(this.lastTime, this.lastOffset);
 		} else {
-			this.sourceNode.start(this.lastTime - this.lastOffset);
+			this.sourceNode.start(this.lastTime - this.lastOffset / this.playbackRate);
 		}
 		this.playing = true;
 	}
@@ -85,6 +89,9 @@ Sunniesnow.Audio = class Audio {
 	}
 
 	pause() {
+		if (!this.playing || this.onPause()) {
+			return;
+		}
 		this.lastOffset = this.currentTime();
 		this.sourceNode.stop();
 		this.playing = false;
@@ -99,7 +106,7 @@ Sunniesnow.Audio = class Audio {
 			this.lastTime = this.constructor.context.currentTime;
 		}
 		this.playbackRate = playbackRate;
-		this.sourceNode.playbackRate.setValueAtTime(this.playbackRate, this.constructor.context.currentTime);
+		this.sourceNode?.playbackRate.setValueAtTime(this.playbackRate, this.constructor.context.currentTime);
 	}
 
 	createWaveform() {
@@ -116,6 +123,40 @@ Sunniesnow.Audio = class Audio {
 		graphics.closePath();
 		graphics.endFill();
 		return graphics.geometry;
+	}
+
+	addPlayListener(listener) {
+		this.playListeners.push(listener);
+	}
+
+	addPauseListener(listener) {
+		this.pauseListeners.push(listener);
+	}
+
+	removePlayListener(listener) {
+		this.playListeners.splice(this.playListeners.indexOf(listener), 1);
+	}
+
+	removePauseListener(listener) {
+		this.pauseListeners.splice(this.pauseListeners.indexOf(listener), 1);
+	}
+
+	onPlay() {
+		for (const listener of this.playListeners) {
+			if (listener()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	onPause() {
+		for (const listener of this.pauseListeners) {
+			if (listener()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 };

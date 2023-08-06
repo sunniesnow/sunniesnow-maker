@@ -49,6 +49,7 @@ Sunniesnow.Editor = {
 		Sunniesnow.workspace?.update(delta);
 		Sunniesnow.MainApp.update(delta);
 		Sunniesnow.TimelineApp.update(delta);
+		Sunniesnow.Status.update(delta);
 	},
 
 	initScene() {
@@ -57,8 +58,10 @@ Sunniesnow.Editor = {
 	},
 
 	async reloadProject() {
+		Sunniesnow.workspace = this.project.workspace;
 		localStorage.setItem('lastProject', this.project.localStorageKey());
-		Sunniesnow.Music.audio = this.music = await Sunniesnow.Audio.fromBlob(this.project.musicBlob);
+		Sunniesnow.Music.audio = this.music = await Sunniesnow.Audio.fromBlob(this.project.music);
+		Sunniesnow.ChartSelect.refresh();
 		Sunniesnow.TimelineApp.reloadProject();
 		Sunniesnow.MainApp.reloadProject();
 	}

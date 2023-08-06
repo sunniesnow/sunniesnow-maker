@@ -1,11 +1,11 @@
 Sunniesnow.FieldFile = class FieldFile extends Sunniesnow.Field {
 
-	populateInputDom() {
-		super.populateInputDom();
+	createInputDom() {
+		super.createInputDom();
 		this.inputDom.type = 'file';
 	}
 
-	value() {
-		return this.inputDom.files[0];
+	getValue() {
+		return this.inputDom.multiple ? this.inputDom.files : this.inputDom.files[0];
 	}
 };

@@ -7,6 +7,7 @@ Sunniesnow.Menu = {
 	submenuItems: {},
 
 	async load() {
+		this.dom = document.getElementById('menu');
 		this.menuJson = await fetch('json/menu.json').then(response => response.json());
 		this.populate();
 	},

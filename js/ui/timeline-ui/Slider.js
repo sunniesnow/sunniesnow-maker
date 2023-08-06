@@ -84,8 +84,6 @@ Sunniesnow.Slider = class Slider extends PIXI.Container {
 		this.addChild(this.leftEnd);
 		this.rightEnd = new PIXI.Graphics(this.constructor.endsGeometry);
 		this.addChild(this.rightEnd);
-		this.leftEnd.eventMode = 'static';
-		this.rightEnd.eventMode = 'static';
 		this.leftEnd.hitArea = new PIXI.Rectangle(-this.constructor.HIT_WIDTH / 2, 0, this.constructor.HIT_WIDTH, Sunniesnow.Config.sliderHeight);
 		this.rightEnd.hitArea = new PIXI.Rectangle(-this.constructor.HIT_WIDTH / 2, 0, this.constructor.HIT_WIDTH, Sunniesnow.Config.sliderHeight);
 		Sunniesnow.PointerManager.register('timeline', this.leftEnd);
@@ -103,14 +101,12 @@ Sunniesnow.Slider = class Slider extends PIXI.Container {
 		this.addChild(this.rightHandle);
 		this.range = new PIXI.Graphics(this.constructor.rangeGeometry);
 		this.addChild(this.range);
-		this.leftHandle.eventMode = 'static';
-		this.rightHandle.eventMode = 'static';
 		this.leftHandle.hitArea = new PIXI.Rectangle(-this.constructor.HIT_WIDTH / 2, 0, this.constructor.HIT_WIDTH, Sunniesnow.Config.sliderHeight);
 		this.rightHandle.hitArea = new PIXI.Rectangle(-this.constructor.HIT_WIDTH / 2, 0, this.constructor.HIT_WIDTH, Sunniesnow.Config.sliderHeight);
 		this.range.hitArea = new PIXI.Rectangle(0, 0, Sunniesnow.Config.timelineWidth, Sunniesnow.Config.sliderHeight);
+		Sunniesnow.PointerManager.register('timeline', this.range);
 		Sunniesnow.PointerManager.register('timeline', this.leftHandle);
 		Sunniesnow.PointerManager.register('timeline', this.rightHandle);
-		Sunniesnow.PointerManager.register('timeline', this.range);
 		this.range.on('pointerdrag', event => this.onRangeDrag(event));
 		this.range.on('pointerup', event => this.dragging = false);
 		this.leftHandle.on('pointerdrag', event => this.onDrag(this.leftHandle, event.draggedTo, {x:0}, this.cursor));
@@ -122,7 +118,6 @@ Sunniesnow.Slider = class Slider extends PIXI.Container {
 	createCursor() {
 		this.cursor = new PIXI.Graphics(this.constructor.cursorGeometry);
 		this.addChild(this.cursor);
-		this.cursor.eventMode = 'static';
 		this.cursor.hitArea = new PIXI.Rectangle(-this.constructor.HIT_WIDTH / 2, 0, this.constructor.HIT_WIDTH, Sunniesnow.Config.sliderHeight);
 		Sunniesnow.PointerManager.register('timeline', this.cursor);
 		this.cursor.on('pointerdrag', event => this.onDrag(this.cursor, event.draggedTo, this.leftHandle, this.rightHandle));
@@ -171,7 +166,7 @@ Sunniesnow.Slider = class Slider extends PIXI.Container {
 		const duration = Sunniesnow.Editor.music.duration;
 		const leftEndX = this.leftEnd.x;
 		const rightEndX = this.rightEnd.x;
-		Sunniesnow.Editor.music.seekTo((this.cursor.x - leftEndX) / (rightEndX - leftEndX) * duration);
+		Sunniesnow.workspace.setOffset((this.cursor.x - leftEndX) / (rightEndX - leftEndX) * duration);
 		const leftHandleX = this.leftHandle.x;
 		const rightHandleX = this.rightHandle.x;
 		Sunniesnow.workspace.cursorPosition = (this.cursor.x - leftHandleX) / (rightHandleX - leftHandleX);

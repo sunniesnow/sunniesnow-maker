@@ -1,13 +1,26 @@
-.chart-tab {
-	padding: 0px 5px;
+#chart-select-bar {
 	user-select: none;
 }
 
-.chart-tab :hover {
+#chart-select {
+	display: inline-block;
+}
+
+.chart-tab {
+	display: inline-block;
+	padding: 0px 5px;
+}
+
+.chart-tab:hover {
 	background: lightgray;
 }
 
-.chart-tab .selected {
+.chart-tab.chart-tab-selected {
 	background: black;
 	color: white;
+}
+
+#project-name {
+	display: inline;
+	float: right;
 }

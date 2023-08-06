@@ -35,6 +35,11 @@ Sunniesnow.Music = {
 		if (!this.audio) {
 			return;
 		}
+		const waveform = Sunniesnow.TimelineApp.waveform;
+		if (waveform?.seeking) {
+			waveform.temporaryPause = !waveform.temporaryPause;
+			return;
+		}
 		if (this.audio.playing) {
 			this.audio.pause();
 		} else {

@@ -9,7 +9,19 @@ description: The chart maker for Sunniesnow, the web rhythm game
 
 <div id="toolbar"></div>
 
-<canvas id="timelines" width="1920" height="300"></canvas>
+<div id="timelines-and-status">
+	<canvas id="timelines" width="1920" height="300"></canvas>
+	<div id="status-wrapper">
+		<div id="status">
+			<div>Title: <span id="status-title"></span></div>
+			<div>Time: <span id="status-time"></span></div>
+			<div>Beat: <span id="status-beat"></span></div>
+			<div>BPM: <span id="status-bpm"></span></div>
+			<div>Speed: <span id="status-playback-rate"></span></div>
+			<div>Music <span id="status-playing"></span></div>
+		</div>
+	</div>
+</div>
 
 <div id="main-and-sidebar">
 	<canvas id="main-canvas" width="1920" height="1080"></canvas>
@@ -19,6 +31,9 @@ description: The chart maker for Sunniesnow, the web rhythm game
 	</div>
 </div>
 
-<div id="chart-select"></div>
+<div id="chart-select-bar">
+	<div id="chart-select"></div>
+	<div id="project-name"></div>
+</div>
 
 <div id="hint"></div>

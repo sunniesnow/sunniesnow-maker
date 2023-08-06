@@ -1,4 +1,7 @@
 <link rel="stylesheet" href="css/general.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/main-and-sidebar.css">
+<link rel="stylesheet" href="css/timelines-and-status.css">
 <link rel="stylesheet" href="css/toolbar.css">
 <link rel="stylesheet" href="css/menu.css">
 <link rel="stylesheet" href="css/popup.css">
@@ -21,15 +24,18 @@
 <script src="js/audio/Audio.js"></script>
 <script src="js/audio/Music.js"></script>
 
-<script src="js/dom/Dom.js"></script>
 <script src="js/dom/Icons.js"></script>
 <script src="js/dom/Toast.js"></script>
 
-<script src="js/dom/menu/Menu.js"></script>
-<script src="js/dom/menu/MenuItem.js"></script>
-<script src="js/dom/menu/SubmenuItem.js"></script>
+<script src="js/dom/main/Hint.js"></script>
+<script src="js/dom/main/Toolbar.js"></script>
+<script src="js/dom/main/ChartSelect.js"></script>
+<script src="js/dom/main/History.js"></script>
+<script src="js/dom/main/Status.js"></script>
 
-<script src="js/dom/Toolbar.js"></script>
+<script src="js/dom/main/menu/Menu.js"></script>
+<script src="js/dom/main/menu/MenuItem.js"></script>
+<script src="js/dom/main/menu/SubmenuItem.js"></script>
 
 <script src="js/dom/popup/Popup.js"></script>
 <script src="js/dom/popup/PopupButton.js"></script>
@@ -46,6 +52,7 @@
 <script src="js/dom/form/fields/FieldColor.js"></script>
 <script src="js/dom/form/fields/FieldFile.js"></script>
 <script src="js/dom/form/fields/FieldRadio.js"></script>
+<script src="js/dom/form/fields/FieldRadioItem.js"></script>
 <script src="js/dom/form/fields/FieldList.js"></script>
 <script src="js/dom/form/fields/FieldListItem.js"></script>
 
@@ -56,26 +63,28 @@
 
 <script src="js/chart-nonevent/TipPoint.js"></script>
 
-<script src="js/chart-event/base/Event.js"></script>
-<script src="js/chart-event/base/TipPointable.js"></script>
-<script src="js/chart-event/base/Note.js"></script>
+<script src="js/chart-event/Event.js"></script>
+<script src="js/chart-event/TipPointable.js"></script>
+<script src="js/chart-event/BpmChange.js"></script>
 
-<script src="js/chart-event/Tap.js"></script>
+<script src="js/chart-event/note/Note.js"></script>
+<script src="js/chart-event/note/Tap.js"></script>
 
 <script src="js/chart-event/bg-pattern/BgPattern.js"></script>
-
-<script src="js/ui/UiPool.js"></script>
 
 <script src="js/ui/main-ui/Background.js"></script>
 <script src="js/ui/main-ui/BasicGrid.js"></script>
 
+<script src="js/ui/timeline-ui/TimelineUi.js"></script>
 <script src="js/ui/timeline-ui/Waveform.js"></script>
 <script src="js/ui/timeline-ui/Beats.js"></script>
 <script src="js/ui/timeline-ui/Slider.js"></script>
+<script src="js/ui/timeline-ui/events/BpmChanges.js"></script>
 
 <script src="js/editor/Editor.js"></script>
 <script src="js/editor/MainApp.js"></script>
 <script src="js/editor/TimelineApp.js"></script>
 <script src="js/editor/PointerManager.js"></script>
+<script src="js/editor/Operation.js"></script>
 
 <script src="js/Preprocess.js"></script>

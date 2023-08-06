@@ -1,10 +1,11 @@
 Sunniesnow.Channel = class Channel {
-	constructor(data) {
-		this.events = data.events.map(eventData => Sunniesnow.Event.from(eventData));
+	constructor(project, data) {
+		this.project = project;
+		this.events = data.events;
 	}
 
-	static userNew() {
-		return new this({events: []});
+	static userNew(project) {
+		return new this(project, {events: []});
 	}
 
 	async toObject() {
@@ -17,7 +18,11 @@ Sunniesnow.Channel = class Channel {
 		};
 	}
 
-	static async fromObject(object) {
-		return new this(object);
+	static async fromObject(project, object) {
+		const events = [];
+		for (const eventData of object.events ?? []) {
+			events.push(await Sunniesnow.Event.fromObject(eventData));
+		}
+		return new this(project, {events});
 	}
 };

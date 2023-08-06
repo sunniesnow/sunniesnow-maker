@@ -7,9 +7,8 @@ Sunniesnow.FieldList = class FieldList extends Sunniesnow.Field {
 		this.items = [];
 	}
 
-	populateInputDom() {
+	createInputDom() {
 		this.inputDom = document.createElement('div');
-		this.inputDom.classList.add('field-input');
 		this.listDom = document.createElement('div');
 		this.listDom.classList.add('field-list');
 		this.buttonsDom = document.createElement('div');
@@ -22,7 +21,6 @@ Sunniesnow.FieldList = class FieldList extends Sunniesnow.Field {
 		this.inputDom.appendChild(this.listDom);
 		this.inputDom.appendChild(this.buttonsDom);
 		this.buttonsDom.appendChild(this.addButtonDom);
-		this.dom.appendChild(this.inputDom);
 	}
 
 	addItem() {
@@ -95,7 +93,7 @@ Sunniesnow.FieldList = class FieldList extends Sunniesnow.Field {
 		this.checkValidity();
 	}
 
-	value() {
+	getValue() {
 		return this.items.map(item => item.form.values());
 	}
 
@@ -106,6 +104,16 @@ Sunniesnow.FieldList = class FieldList extends Sunniesnow.Field {
 		if (!this.invalid) {
 			super.checkValidity();
 		}
+	}
+
+	setInputDomDisabled(disabled) {
+		this.addButtonDom.disabled = disabled;
+		this.items.forEach(item => item.setDisabled(disabled));
+	}
+
+	purge() {
+		super.purge();
+		this.items.forEach(item => item.purge());
 	}
 
 };

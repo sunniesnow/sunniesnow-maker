@@ -2,10 +2,7 @@ Sunniesnow.Workspace = class Workspace {
 
 	static async fromObject(object) {
 		const result = new this();
-		result.zoom = object.zoom;
-		result.cursorPosition = object.cursorPosition;
-		result.offset = object.offset;
-		result.subdivision = object.subdivision;
+		result.restoreFromObject(object);
 		return result;
 	}
 
@@ -13,17 +10,43 @@ Sunniesnow.Workspace = class Workspace {
 		this.zoom = 1;
 		this.cursorPosition = 0.1;
 		this.offset = 0;
-
 		this.subdivision = 2;
+		this.currentChartIndex = 0;
+		this.currentChannelIndex = 0;
+		this.formatTime = true;
+		this.history = [];
 	}
 
 	async toObject() {
+		return this.toObjectSync();
+	}
+
+	toObjectSync() {
+		const history = [];
+		for (const operation of this.history) {
+			history.push(operation.toObjectSync());
+		}
 		return {
 			zoom: this.zoom,
 			cursorPosition: this.cursorPosition,
 			offset: this.offset,
-			subdivision: this.subdivision
+			subdivision: this.subdivision,
+			currentChartIndex: this.currentChartIndex,
+			currentChannelIndex: this.currentChannelIndex,
+			formatTime: this.formatTime,
+			history
 		};
+	}
+
+	restoreFromObject(object) {
+		this.zoom = object.zoom ?? 1;
+		this.cursorPosition = object.cursorPosition ?? 0.1;
+		this.subdivision = object.subdivision ?? 2;
+		this.currentChartIndex = object.currentChartIndex ?? 0;
+		this.currentChannelIndex = object.currentChannelIndex ?? 0;
+		this.formatTime = object.formatTime ?? true;
+		this.history = (object.history ?? []).map(operationData => Sunniesnow.Operation.fromObjectSync(operationData));
+		this.setOffset(object.offset ?? 0);
 	}
 
 	timeWindow() {
@@ -43,5 +66,10 @@ Sunniesnow.Workspace = class Workspace {
 
 	zoomBy(ratio) {
 		this.zoom *= ratio;
+	}
+
+	setOffset(offset) {
+		this.offset = offset;
+		Sunniesnow.Editor.music?.seekTo(offset);
 	}
 };

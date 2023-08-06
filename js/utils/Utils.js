@@ -113,6 +113,29 @@ Sunniesnow.Utils = {
 			}
 		}
 		return high - 1;
-	}
+	},
+
+	formatTime(seconds) {
+		if (seconds < 0) {
+			return '-' + this.formatTime(-seconds);
+		}
+		const minutes = Math.floor(seconds / 60);
+		const milliseconds = String(Math.floor(seconds % 1 * 1000)).padStart(3, '0');
+		seconds = String(Math.floor(seconds % 60)).padStart(2, '0');
+		return `${minutes}:${seconds}.${milliseconds}`;
+	},
+
+	objectId: (() => {
+		const map = new WeakMap();
+		let id = 0;
+		return object => {
+			if (map.has(object)) {
+				return map.get(object);
+			}
+			id++;
+			map.set(object, id);
+			return id;
+		};
+	})()
 
 };

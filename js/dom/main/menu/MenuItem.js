@@ -14,7 +14,7 @@ Sunniesnow.MenuItem = class MenuItem {
 		this.dom = document.createElement('div');
 		this.dom.id = this.id;
 		this.dom.classList.add('menu-item');
-		Sunniesnow.Dom.menu.appendChild(this.dom);
+		Sunniesnow.Menu.dom.appendChild(this.dom);
 	}
 
 	createMasterDom() {

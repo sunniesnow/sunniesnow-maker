@@ -70,15 +70,12 @@ Sunniesnow.SubmenuItem = class SubmenuItem {
 		this.focused = false;
 		this.dom.addEventListener('focusout', event => {
 			this.focused = false;
-			Sunniesnow.Dom.hint.innerHTML = '';
 			if (event.relatedTarget && !this.menuItem.submenuDom.contains(event.relatedTarget)) {
 				this.menuItem.blur();
 			}
 		});
-		this.dom.addEventListener('focusin', event => {
-			this.focused = true;
-			Sunniesnow.Dom.hint.innerHTML = this.hint;
-		});
+		this.dom.addEventListener('focusin', event => this.focused = true);
+		Sunniesnow.Hint.register(this.dom, this.hint, 'focus');
 		window.addEventListener('blur', event => this.focused = false);
 		document.addEventListener('keydown', event => {
 			if (!this.focused) {

@@ -3,6 +3,7 @@ Sunniesnow.FieldListItem = class FieldListItem {
 	constructor(fieldList, index) {
 		this.fieldList = fieldList;
 		this.index = index;
+		this.disabled = false;
 		this.form = new Sunniesnow.Form(fieldList.subformData);
 		this.form.addInputListener(event => this.fieldList.onInput(event));
 		this.populate();
@@ -84,6 +85,21 @@ Sunniesnow.FieldListItem = class FieldListItem {
 
 	moveDown() {
 		this.fieldList.swap(this.index, this.index + 1);
+	}
+
+	setDisabled(disabled) {
+		if (this.disabled === disabled) {
+			return;
+		}
+		this.disabled = disabled;
+		this.form.setDisabled(disabled);
+		for (const buttonDom of this.buttonsDom.children) {
+			buttonDom.disabled = disabled;
+		}
+	}
+
+	purge() {
+		this.form.purge();
 	}
 
 };

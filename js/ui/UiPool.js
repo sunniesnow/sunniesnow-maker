@@ -1,7 +1,0 @@
-Sunniesnow.UiPool = {
-
-	buffer: [],
-
-	
-
-};

@@ -1,17 +1,20 @@
 Sunniesnow.Chart = class Chart {
 	constructor(project, data) {
 		this.project = project;
+		this.name = data.name;
 		this.charter = data.charter;
 		this.difficultyName = data.difficultyName;
 		this.difficultyColor = data.difficultyColor;
 		this.difficulty = data.difficulty;
-		this.channels = [];
+		this.channels = data.channels;
 	}
 
 	static userNew(project, data) {
-		const chart = new this(project, data);
-		chart.channels[0] = Sunniesnow.Channel.userNew(chart);
-		return chart;
+		return new this(project, {
+			...data,
+			difficultyColor: data.difficultyColor === 'other' ? data.difficultyColorOther : data.difficultyColor,
+			channels: [Sunniesnow.Channel.userNew(project)]
+		});
 	}
 
 	async toObject() {
@@ -20,6 +23,7 @@ Sunniesnow.Chart = class Chart {
 			channels.push(await channel.toObject());
 		}
 		return {
+			name: this.name,
 			charter: this.charter,
 			difficultyName: this.difficultyName,
 			difficultyColor: this.difficultyColor,
@@ -29,9 +33,17 @@ Sunniesnow.Chart = class Chart {
 	}
 
 	static async fromObject(project, object) {
-		const chart = new this(project, object);
-		chart.channels = object.channels.map(channelData => {
-			return Sunniesnow.Channel.fromObject(channelData);
+		const channels = [];
+		for (const channelData of object.channels ?? []) {
+			channels.push(await Sunniesnow.Channel.fromObject(project, channelData));
+		}
+		const chart = new this(project, {
+			name: object.name ?? String(project.charts.length),
+			charter: object.charter ?? '',
+			difficultyName: object.difficultyName ?? '',
+			difficultyColor: object.difficultyColor ?? '#000000',
+			difficulty: object.difficulty ?? '',
+			channels
 		});
 		return chart;
 	}

@@ -5,15 +5,16 @@ Sunniesnow.Project = class Project {
 	}
 
 	constructor(data) {
-		this.pathDig = data.path.split('/');
-		this.name = this.pathDig[this.pathDig.length - 1];
+		this.pathDig = data.name.split('/');
+		this.name = data.name;
+		this.basename = this.pathDig[this.pathDig.length - 1];
 		this.title = data.title;
-		this.musicBlob = data.music;
+		this.music = data.music;
 		this.artist = data.artist;
-		this.baseBps = data.baseBpm / 60;
+		this.baseBps = data.baseBps;
 		this.offset = data.offset;
-		this.bpmChanges = [];
-		this.chartList = [];
+		this.bpmChanges = data.bpmChanges;
+		this.charts = [];
 
 		this.bpmChangesCache = [];
 
@@ -22,8 +23,8 @@ Sunniesnow.Project = class Project {
 	}
 
 	static userNew(data) {
-		const project = new this(data);
-		project.chartList = data.charts.map(chartData => {
+		const project = new this({...data, baseBps: data.baseBpm / 60, bpmChanges: []});
+		project.charts = data.charts.map(chartData => {
 			return Sunniesnow.Chart.userNew(project, chartData);
 		});
 		return project;
@@ -31,6 +32,7 @@ Sunniesnow.Project = class Project {
 
 	static userNewPopup() {
 		new Sunniesnow.PopupForm('New project', new Sunniesnow.FormNew(), values => {
+			console.log(values)
 			const project = this.userNew(values);
 			Sunniesnow.Editor.project = project;
 			Sunniesnow.Editor.save();
@@ -39,7 +41,7 @@ Sunniesnow.Project = class Project {
 	}
 
 	localStorageKey() {
-		return this.constructor.localStorageKey(this.pathDig.join('/'));
+		return this.constructor.localStorageKey(this.name);
 	}
 
 	static localStorageKey(path) {
@@ -48,7 +50,7 @@ Sunniesnow.Project = class Project {
 
 	async toObject() {
 		const charts = [];
-		for (const chart of this.chartList) {
+		for (const chart of this.charts) {
 			charts.push(await chart.toObject());
 		}
 		const bpmChanges = [];
@@ -56,11 +58,11 @@ Sunniesnow.Project = class Project {
 			bpmChanges.push(await bpmChange.toObject());
 		}
 		return {
-			path: this.pathDig.join('/'),
+			name: this.name,
 			title: this.title,
-			music: await Sunniesnow.Utils.blobToBase64(this.musicBlob),
+			music: await Sunniesnow.Utils.blobToBase64(this.music),
 			artist: this.artist,
-			baseBpm: this.baseBps * 60,
+			baseBps: this.baseBps,
 			offset: this.offset,
 			charts,
 			bpmChanges,
@@ -69,17 +71,23 @@ Sunniesnow.Project = class Project {
 	}
 
 	static async fromObject(object) {
-		const data = Object.assign({}, object);
-		data.music = await Sunniesnow.Utils.base64ToBlob(data.music);
-		const project = new this(data);
-		for (let i = 0; i < object.charts.length; i++) {
-			project.chartList[i] = await Sunniesnow.Chart.fromObject(project, object.charts[i]);
+		const bpmChanges = [];
+		for (const bpmChangeData of object.bpmChanges ?? []) {
+			bpmChanges.push(await Sunniesnow.BpmChange.fromObject(bpmChangeData));
 		}
-		for (let i = 0; i < object.bpmChanges.length; i++) {
-			project.bpmChanges[i] = await Sunniesnow.BpmChange.fromObject(project, object.bpmChanges[i]);
+		const project = new this({
+			name: object.name ?? `project-${Date.now()}`,
+			title: object.title ?? '',
+			music: await Sunniesnow.Utils.base64ToBlob(object.music),
+			artist: object.artist ?? '',
+			baseBps: object.baseBps ?? 2,
+			offset: object.offset ?? 0,
+			bpmChanges
+		});
+		for (const chartData of object.charts ?? []) {
+			project.charts.push(await Sunniesnow.Chart.fromObject(project, chartData));
 		}
-		project.workspace = await Sunniesnow.Workspace.fromObject(object.workspace);
-		Sunniesnow.workspace = project.workspace;
+		project.workspace = await Sunniesnow.Workspace.fromObject(object.workspace ?? {});
 		project.flushBpmChangesCache();
 		return project;
 	}
@@ -142,6 +150,11 @@ Sunniesnow.Project = class Project {
 			const last = this.bpmChangesCache[index];
 			return last.beat + (time - last.time) * last.bps;
 		}
+	}
+
+	bpsAt(time) {
+		const index = Sunniesnow.Utils.bisectRight(this.bpmChangesCache, e => e.time - time);
+		return index < 0 ? this.baseBps : this.bpmChangesCache[index].bps;
 	}
 
 };

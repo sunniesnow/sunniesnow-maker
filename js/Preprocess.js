@@ -8,7 +8,14 @@ Sunniesnow.Preprocess = {
 	async loadAll() {
 		const loadList = await fetch('json/load-list.json').then(response => response.json());
 		for (const property of loadList) {
-			await Sunniesnow[property].load();
+			const module = Sunniesnow[property];
+			if (!module) {
+				throw new Error(`Module ${property} not found`);
+			}
+			if (!module.load) {
+				throw new Error(`Module ${property} has no load() method`);
+			}
+			await module.load();
 		}
 	}
 };

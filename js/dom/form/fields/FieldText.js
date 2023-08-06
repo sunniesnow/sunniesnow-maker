@@ -1,7 +1,7 @@
 Sunniesnow.FieldText = class FieldText extends Sunniesnow.Field {
 
-	populateInputDom() {
-		super.populateInputDom();
+	createInputDom() {
+		super.createInputDom();
 		this.inputDom.type = 'text';
 	}
 };
