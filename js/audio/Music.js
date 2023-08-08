@@ -1,31 +1,33 @@
 Sunniesnow.Music = {
 
-	EPSILON: 1e-4,
+	EPSILON: 1e-3,
 
 	async load() {
-		Sunniesnow.Menu.setOnTrigger('play-pause', () => this.playPause());
+		const a = () => this.audio;
+		const w = () => Sunniesnow.workspace;
+		Sunniesnow.Menu.set('play-pause', a, () => this.playPause());
 
-		Sunniesnow.Menu.setOnTrigger('seek-to-start', () => this.seekToStart());
-		Sunniesnow.Menu.setOnTrigger('seek-forward', () => this.seekNextSubbeat());
-		Sunniesnow.Menu.setOnTrigger('seek-backward', () => this.seekPreviousSubbeat());
-		Sunniesnow.Menu.setOnTrigger('seek-forward-10', () => this.seekDelta(10));
-		Sunniesnow.Menu.setOnTrigger('seek-backward-10', () => this.seekDelta(-10));
+		Sunniesnow.Menu.set('seek-to-start', a, () => this.seekToStart());
+		Sunniesnow.Menu.set('seek-forward', a, () => this.seekNextSubbeat());
+		Sunniesnow.Menu.set('seek-backward', a, () => this.seekPreviousSubbeat());
+		Sunniesnow.Menu.set('seek-forward-10', a, () => this.seekDelta(10));
+		Sunniesnow.Menu.set('seek-backward-10', a, () => this.seekDelta(-10));
 
-		Sunniesnow.Menu.setOnTrigger('time-lattice-1', () => this.setSubdivision(1));
-		Sunniesnow.Menu.setOnTrigger('time-lattice-2', () => this.setSubdivision(2));
-		Sunniesnow.Menu.setOnTrigger('time-lattice-3', () => this.setSubdivision(3));
-		Sunniesnow.Menu.setOnTrigger('time-lattice-4', () => this.setSubdivision(4));
-		Sunniesnow.Menu.setOnTrigger('time-lattice-6', () => this.setSubdivision(6));
-		Sunniesnow.Menu.setOnTrigger('time-lattice-8', () => this.setSubdivision(8));
+		Sunniesnow.Menu.set('time-lattice-1', w, () => this.setSubdivision(1));
+		Sunniesnow.Menu.set('time-lattice-2', w, () => this.setSubdivision(2));
+		Sunniesnow.Menu.set('time-lattice-3', w, () => this.setSubdivision(3));
+		Sunniesnow.Menu.set('time-lattice-4', w, () => this.setSubdivision(4));
+		Sunniesnow.Menu.set('time-lattice-6', w, () => this.setSubdivision(6));
+		Sunniesnow.Menu.set('time-lattice-8', w, () => this.setSubdivision(8));
 
-		Sunniesnow.Menu.setOnTrigger('speed-minus-0-1', () => this.setPlaybackRateDelta(-0.1));
-		Sunniesnow.Menu.setOnTrigger('speed-plus-0-1', () => this.setPlaybackRateDelta(0.1));
-		Sunniesnow.Menu.setOnTrigger('speed-0-25', () => this.setPlaybackRate(0.25));
-		Sunniesnow.Menu.setOnTrigger('speed-0-5', () => this.setPlaybackRate(0.5));
-		Sunniesnow.Menu.setOnTrigger('speed-1', () => this.setPlaybackRate(1));
+		Sunniesnow.Menu.set('speed-minus-0-1', a, () => this.setPlaybackRateDelta(-0.1));
+		Sunniesnow.Menu.set('speed-plus-0-1', a, () => this.setPlaybackRateDelta(0.1));
+		Sunniesnow.Menu.set('speed-0-25', a, () => this.setPlaybackRate(0.25));
+		Sunniesnow.Menu.set('speed-0-5', a, () => this.setPlaybackRate(0.5));
+		Sunniesnow.Menu.set('speed-1', a, () => this.setPlaybackRate(1));
 
-		Sunniesnow.Menu.setOnTrigger('zoom-in', () => Sunniesnow.workspace?.zoomBy(1.1));
-		Sunniesnow.Menu.setOnTrigger('zoom-out', () => Sunniesnow.workspace?.zoomBy(0.9));
+		Sunniesnow.Menu.set('zoom-in', w, () => Sunniesnow.workspace.zoomBy(1.1));
+		Sunniesnow.Menu.set('zoom-out', w, () => Sunniesnow.workspace.zoomBy(0.9));
 
 		Sunniesnow.MainApp.canvas.addEventListener('wheel', event => this.onWheel(event));
 		Sunniesnow.TimelineApp.canvas.addEventListener('wheel', event => this.onWheel(event));
@@ -35,9 +37,8 @@ Sunniesnow.Music = {
 		if (!this.audio) {
 			return;
 		}
-		const waveform = Sunniesnow.TimelineApp.waveform;
-		if (waveform?.seeking) {
-			waveform.temporaryPause = !waveform.temporaryPause;
+		if (this.seeking) {
+			this.temporaryPause = !this.temporaryPause;
 			return;
 		}
 		if (this.audio.playing) {
@@ -150,6 +151,32 @@ Sunniesnow.Music = {
 				this.seekPreviousSubbeat();
 			}
 		}
+	},
+
+	beginSeeking() {
+		if (!this.audio) {
+			return;
+		}
+		this.seeking = true;
+		if (this.audio.playing) {
+			this.audio.pause();
+			this.temporaryPause = true;
+		}
+	},
+
+	endSeeking() {
+		if (!this.audio) {
+			return;
+		}
+		this.seeking = false;
+		if (this.temporaryPause) {
+			this.audio.play();
+			this.temporaryPause = false;
+		}
+	},
+
+	playing() {
+		return !!this.audio?.playing || this.temporaryPause;
 	}
 
 };

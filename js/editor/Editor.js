@@ -64,5 +64,6 @@ Sunniesnow.Editor = {
 		Sunniesnow.ChartSelect.refresh();
 		Sunniesnow.TimelineApp.reloadProject();
 		Sunniesnow.MainApp.reloadProject();
+		Sunniesnow.History.reloadProject();
 	}
 };

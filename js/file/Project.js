@@ -1,7 +1,7 @@
 Sunniesnow.Project = class Project {
 
 	static async load() {
-		Sunniesnow.Menu.setOnTrigger('new', () => this.userNewPopup());
+		Sunniesnow.Menu.set('new', null, () => this.userNewPopup());
 	}
 
 	constructor(data) {
@@ -155,6 +155,17 @@ Sunniesnow.Project = class Project {
 	bpsAt(time) {
 		const index = Sunniesnow.Utils.bisectRight(this.bpmChangesCache, e => e.time - time);
 		return index < 0 ? this.baseBps : this.bpmChangesCache[index].bps;
+	}
+
+	swapCharts(index1, index2) {
+		const t = this.charts[index1];
+		this.charts[index1] = this.charts[index2];
+		this.charts[index2] = t;
+		if (this.workspace.currentChartIndex === index1) {
+			this.workspace.currentChartIndex = index2;
+		} else if (this.workspace.currentChartIndex === index2) {
+			this.workspace.currentChartIndex = index1;
+		}
 	}
 
 };

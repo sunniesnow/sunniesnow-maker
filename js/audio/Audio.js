@@ -60,9 +60,12 @@ Sunniesnow.Audio = class Audio {
 	}
 
 	seekTo(offset) {
-		this.lastOffset = offset;
 		if (this.playing) {
+			this.pause();
+			this.lastOffset = offset;
 			this.play();
+		} else {
+			this.lastOffset = offset;
 		}
 	}
 

@@ -61,6 +61,9 @@ Sunniesnow.SubmenuItem = class SubmenuItem {
 	}
 
 	trigger() {
+		if (this.disabled()) {
+			return;
+		}
 		console.log('trigger', this.id);
 		this.menuItem.blur();
 		this.onTrigger?.();
@@ -149,5 +152,17 @@ Sunniesnow.SubmenuItem = class SubmenuItem {
 				}
 			}
 		});
+	}
+
+	disabled() {
+		return !!this.condition && !this.condition();
+	}
+
+	updateDisabled() {
+		if (this.disabled()) {
+			this.dom.classList.add('menu-submenu-item-disabled');
+		} else {
+			this.dom.classList.remove('menu-submenu-item-disabled');
+		}
 	}
 };

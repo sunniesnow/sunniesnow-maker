@@ -1,7 +1,7 @@
 Sunniesnow.BpmChange = class BpmChange extends Sunniesnow.Event {
 
 	static async load() {
-		Sunniesnow.Menu.setOnTrigger('bpm-change', () => this.userNewPopup());
+		Sunniesnow.Menu.set('bpm-change', () => Sunniesnow.Editor.project, () => this.userNewPopup());
 	}
 
 	static userNewPopup() {

@@ -21,10 +21,13 @@ Sunniesnow.Menu = {
 		}
 	},
 
-	setOnTrigger(submenuItemId, onTrigger) {
+	set(submenuItemId, condition, onTrigger) {
 		const submenuItem = this.submenuItems[submenuItemId];
-		if (submenuItem) {
-			submenuItem.onTrigger = onTrigger;
+		if (!submenuItem) {
+			console.error(`Sunniesnow.Menu.set: submenu item with id ${submenuItemId} not found`);
+			return;
 		}
+		submenuItem.condition = condition;
+		submenuItem.onTrigger = onTrigger;
 	}
 };

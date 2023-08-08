@@ -14,7 +14,6 @@ Sunniesnow.Workspace = class Workspace {
 		this.currentChartIndex = 0;
 		this.currentChannelIndex = 0;
 		this.formatTime = true;
-		this.history = [];
 	}
 
 	async toObject() {
@@ -22,10 +21,6 @@ Sunniesnow.Workspace = class Workspace {
 	}
 
 	toObjectSync() {
-		const history = [];
-		for (const operation of this.history) {
-			history.push(operation.toObjectSync());
-		}
 		return {
 			zoom: this.zoom,
 			cursorPosition: this.cursorPosition,
@@ -34,7 +29,6 @@ Sunniesnow.Workspace = class Workspace {
 			currentChartIndex: this.currentChartIndex,
 			currentChannelIndex: this.currentChannelIndex,
 			formatTime: this.formatTime,
-			history
 		};
 	}
 
@@ -45,7 +39,6 @@ Sunniesnow.Workspace = class Workspace {
 		this.currentChartIndex = object.currentChartIndex ?? 0;
 		this.currentChannelIndex = object.currentChannelIndex ?? 0;
 		this.formatTime = object.formatTime ?? true;
-		this.history = (object.history ?? []).map(operationData => Sunniesnow.Operation.fromObjectSync(operationData));
 		this.setOffset(object.offset ?? 0);
 	}
 

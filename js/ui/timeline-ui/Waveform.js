@@ -19,15 +19,7 @@ Sunniesnow.Waveform = class Waveform extends Sunniesnow.TimelineUi {
 	addInteraction() {
 		this.hitArea = {contains: (x, y) => y <= Sunniesnow.Config.waveformHeight};
 		Sunniesnow.PointerManager.register('timeline', this);
-		this.on('pointerdown', event => {
-			if (Sunniesnow.workspace) {
-				this.seeking = true;
-			}
-			if (Sunniesnow.Editor.music?.playing) {
-				this.temporaryPause = true;
-				Sunniesnow.Editor.music.pause();
-			}
-		});
+		this.on('pointerdown', event => Sunniesnow.Music.beginSeeking());
 		this.on('pointermove', ({position, localPosition}) => {
 			if (!Sunniesnow.workspace) {
 				return;
@@ -35,13 +27,7 @@ Sunniesnow.Waveform = class Waveform extends Sunniesnow.TimelineUi {
 			Sunniesnow.workspace.setOffset(this.timeAt(localPosition.x));
 			Sunniesnow.workspace.cursorPosition = position.x / Sunniesnow.Config.timelineWidth;
 		});
-		this.on('pointerup', event => {
-			if (this.temporaryPause) {
-				Sunniesnow.Editor.music?.play();
-				this.temporaryPause = false;
-			}
-			this.seeking = false;
-		});
+		this.on('pointerup', event => Sunniesnow.Music.endSeeking());
 	}
 
 	update(delta) {

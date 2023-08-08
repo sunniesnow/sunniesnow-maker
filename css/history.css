@@ -1,0 +1,54 @@
+#history {
+	width: 100%;
+	height: 50%;
+	overflow: auto;
+	position: absolute;
+	top: 50%;
+	user-select: none;
+	font-size: 16px;
+}
+
+.operation {
+	font-style: italic;
+	color: darkgray;
+	display: flex;
+}
+
+.operation:hover:not(.history-pointer) {
+	background: lightgray;
+}
+
+.operation:active:not(.history-pointer) {
+	background: gray;
+}
+
+.operation.operation-done:not(.history-pointer) {
+	font-style: normal;
+	color: black;
+}
+
+.operation.history-pointer {
+	font-style: normal;
+	background: black;
+	color: white;
+}
+
+.operation-icon {
+	height: 16px;
+	width: 16px;
+	vertical-align: bottom;
+	padding-right: 5px;
+	display: inline;
+
+	>img {
+		max-height: 100%;
+		width: auto;
+		height: auto;
+	}
+}
+
+.operation-name {
+	margin-right: 5px;
+	vertical-align: baseline;
+	display: inline;
+}

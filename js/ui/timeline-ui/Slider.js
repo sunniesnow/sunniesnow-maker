@@ -90,8 +90,8 @@ Sunniesnow.Slider = class Slider extends PIXI.Container {
 		Sunniesnow.PointerManager.register('timeline', this.rightEnd);
 		this.leftEnd.on('pointerdrag', event => this.onDrag(this.leftEnd, event.draggedTo, { x: 0 }, this.rightEnd));
 		this.rightEnd.on('pointerdrag', event => this.onDrag(this.rightEnd, event.draggedTo, this.leftEnd, { x: Sunniesnow.Config.timelineWidth }));
-		this.leftEnd.on('pointerup', event => this.dragging = false);
-		this.rightEnd.on('pointerup', event => this.dragging = false);
+		this.leftEnd.on('pointerup', event => this.onDragEnd());
+		this.rightEnd.on('pointerup', event => this.onDragEnd());
 	}
 
 	createTimeWindowHandles() {
@@ -108,11 +108,11 @@ Sunniesnow.Slider = class Slider extends PIXI.Container {
 		Sunniesnow.PointerManager.register('timeline', this.leftHandle);
 		Sunniesnow.PointerManager.register('timeline', this.rightHandle);
 		this.range.on('pointerdrag', event => this.onRangeDrag(event));
-		this.range.on('pointerup', event => this.dragging = false);
+		this.range.on('pointerup', event => this.onDragEnd());
 		this.leftHandle.on('pointerdrag', event => this.onDrag(this.leftHandle, event.draggedTo, {x:0}, this.cursor));
 		this.rightHandle.on('pointerdrag', event => this.onDrag(this.rightHandle, event.draggedTo, this.cursor, {x:Sunniesnow.Config.timelineWidth}));
-		this.leftHandle.on('pointerup', event => this.dragging = false);
-		this.rightHandle.on('pointerup', event => this.dragging = false);
+		this.leftHandle.on('pointerup', event => this.onDragEnd());
+		this.rightHandle.on('pointerup', event => this.onDragEnd());
 	}
 
 	createCursor() {
@@ -121,7 +121,7 @@ Sunniesnow.Slider = class Slider extends PIXI.Container {
 		this.cursor.hitArea = new PIXI.Rectangle(-this.constructor.HIT_WIDTH / 2, 0, this.constructor.HIT_WIDTH, Sunniesnow.Config.sliderHeight);
 		Sunniesnow.PointerManager.register('timeline', this.cursor);
 		this.cursor.on('pointerdrag', event => this.onDrag(this.cursor, event.draggedTo, this.leftHandle, this.rightHandle));
-		this.cursor.on('pointerup', event => this.dragging = false);
+		this.cursor.on('pointerup', event => this.onDragEnd());
 	}
 
 	update(delta) {
@@ -134,6 +134,9 @@ Sunniesnow.Slider = class Slider extends PIXI.Container {
 
 	onDrag(target, draggedTo, leftBound, rightBound) {
 		this.dragging = true;
+		if (!Sunniesnow.Music.seeking) {
+			Sunniesnow.Music.beginSeeking();
+		}
 		const newX = draggedTo.x;
 		if (leftBound && newX <= leftBound.x) {
 			return;
@@ -144,8 +147,18 @@ Sunniesnow.Slider = class Slider extends PIXI.Container {
 		target.x = newX;
 	}
 
+	onDragEnd() {
+		this.dragging = false;
+		if (Sunniesnow.Music.seeking) {
+			Sunniesnow.Music.endSeeking();
+		}
+	}
+
 	onRangeDrag(event) {
 		this.dragging = true;
+		if (!Sunniesnow.Music.seeking) {
+			Sunniesnow.Music.beginSeeking();
+		}
 		const leftX = event.draggedTo.x;
 		const rightX = leftX + this.range.scale.x * Sunniesnow.Config.timelineWidth;
 		if (leftX <= 0 || leftX >= this.cursor.x) {

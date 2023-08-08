@@ -49,13 +49,25 @@ Sunniesnow.MenuItem = class MenuItem {
 		this.submenuDom.style.display = 'none';
 	}
 
+	showSubmenu() {
+		Sunniesnow.Menu.current = this;
+		for (const item of this.submenuItems) {
+			item.updateDisabled();
+		}
+		this.submenuDom.style.display = 'block';
+	}
+
+	hideSubmenu() {
+		Sunniesnow.Menu.current = null;
+		this.submenuDom.style.display = 'none';
+	}
+
 	addEventListeners() {
 		this.focused = false;
 		this.masterDom.addEventListener('focusout', event => {
 			this.focused = false;
 			if (!this.submenuDom.contains(event.relatedTarget)) {
-				Sunniesnow.Menu.current = null;
-				this.submenuDom.style.display = 'none';
+				this.hideSubmenu();
 			}
 		});
 		this.masterDom.addEventListener('focusin', event => {
@@ -64,8 +76,7 @@ Sunniesnow.MenuItem = class MenuItem {
 				return;
 			}
 			this.focused = true;
-			Sunniesnow.Menu.current = this;
-			this.submenuDom.style.display = 'block';
+			this.showSubmenu();
 		});
 		this.masterDom.addEventListener('mouseleave', event => {
 			if (Sunniesnow.Popup.active()) {
@@ -74,8 +85,7 @@ Sunniesnow.MenuItem = class MenuItem {
 		});
 		window.addEventListener('blur', event => event => {
 			this.focused = false;
-			Sunniesnow.Menu.current = null;
-			this.submenuDom.style.display = 'none';
+			this.hideSubmenu();
 		});
 		document.addEventListener('keydown', event => {
 			if (Sunniesnow.Menu.current !== this) {
